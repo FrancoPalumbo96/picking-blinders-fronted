@@ -1,0 +1,54 @@
+<div id="us">
+  <div>
+    <h1>{{this.missingProductTitle}}</h1>
+    <h2></h2>
+  </div>
+
+  <div id="submit" [hidden]="isBoxSelected()">
+    <h2>Por favor ingrese el código de la caja en la estación</h2>
+    <div>
+      <label>
+        <input [(ngModel)]="boxCode" type="number" placeholder="ingrese el código aquí"/>
+      </label>
+    </div>
+    <div>
+      <button (click)="boxCodeScanned()" class="button">OK</button>
+    </div>
+  </div>
+  <div [hidden]="!isBoxSelected()">
+    <div class="wrapper-table-code">
+      <div id="scanned-table">
+        <h2>Lista de productos faltantes</h2>
+        <table>
+          <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of dataTable">
+            <td>{{data.product}}</td>
+            <td>{{data.quantity}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="submitProduct">
+        <h2>Por favor ingrese el código de un producto<br>perteneciente a la picking list</h2>
+        <div>
+          <label>
+            <input [(ngModel)]="productCode" type="number" placeholder="ingrese el código aquí"/>
+          </label>
+        </div>
+        <div>
+          <button (click)="productCodeScanned()" class="button">Agregar</button>
+        </div>
+      </div>
+    </div>
+    <div class="finish-adding-products-container">
+      <button  (click)="finishAddingProducts()" class="button">Finalizar agregado de productos</button>
+    </div>
+  </div>
+</div>
+

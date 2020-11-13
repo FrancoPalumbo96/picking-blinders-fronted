@@ -1,0 +1,18 @@
+<div id="us">
+  <div>
+    <h1>{{this.derivadorTitle}}</h1>
+    <h2></h2>
+  </div>
+
+  <div id="submit">
+    <h2>Por favor ingrese el código de la caja</h2>
+    <div>
+      <label>
+        <input [(ngModel)]="boxCode" type="number" placeholder="ingrese el código aquí"/>
+      </label>
+    </div>
+    <div>
+      <button mat-raised-button (click)="boxCodeScanned()" class="button">OK</button>
+    </div>
+  </div>
+</div>

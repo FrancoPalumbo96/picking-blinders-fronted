@@ -1,0 +1,24 @@
+<div id="us">
+  <div>
+    <h1>{{impresionPickingListTitle}}</h1>
+    <h2></h2>
+  </div>
+  <form [formGroup]="printTagsForm" (ngSubmit)="selectedZoneChange()" (click)="clickTag($event)" [hidden]="isZoneSelected()">
+    <div>
+      <label for="tags">Seleccionar Zona</label>
+      <select id="tags" formControlName="tagName" [(ngModel)]="selectedZone">
+        <option value="" disabled>Zonas</option>
+        <option *ngFor="let zone of zones" [ngValue]="zone">{{zone}}</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit">Seleccionar Zona</button>
+    </div>
+  </form>
+  <div class="print-tags-container" [hidden]="!isZoneSelected()">
+    <button type="submit" (click)="printTag()">Imprimir Etiqueta</button>
+  </div>
+  <div class="go-back-container">
+    <button  (click)="resetZone()" class="button">Reiniciar Zona</button>
+  </div>
+</div>

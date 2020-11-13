@@ -1,0 +1,40 @@
+<div id="us">
+  <div>
+    <h1>Escanear Productos</h1>
+  </div>
+
+  <div class="wrapper-table-code">
+    <div id="scanned-table">
+      <h2>Listado</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of dataTable">
+            <td>{{data.product}}</td>
+            <td>{{data.quantity}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="submit">
+      <h2>Por favor ingrese el código de un producto<br>perteneciente a la picking list</h2>
+      <div>
+        <label>
+          <input [(ngModel)]="boxCode" type="number" placeholder="ingrese el código aquí"/>
+        </label>
+      </div>
+      <div>
+        <button mat-raised-button (click)="addProductToBox()" class="button">Agregar</button>
+      </div>
+    </div>
+  </div>
+  <div class="finish-adding-products-container">
+    <button  (click)="finishAddingProducts()" class="button">Finalizar agregado de productos</button>
+  </div>
+</div>
+

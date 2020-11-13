@@ -1,0 +1,74 @@
+@import "src/app/pantallas/generacion-picking-list/generacion-picking-list.component";
+
+
+
+button{
+  width: auto;
+}
+.print-tags-container{
+  text-align: center;
+}
+.print-tags-container > button{
+  width: 200px;
+
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  font-size: 16px;
+  margin: 16px 0;
+  cursor: pointer;
+}
+
+input[type=text], select {
+  width: 50%;
+/*  padding: 12px 20px;
+  margin: 16px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;*/
+
+}
+
+div {
+  text-align: center;
+}
+button {
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  //text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+
+  font-size: 16px;
+  margin: 16px 0;
+  cursor: pointer;
+}
+
+label {
+  font-size: 20px;
+  //font-weight:400;
+  //font-family:Roboto, "Helvetica Neue",sans-serif;
+  //text-align: center;
+  margin: 20px;
+}
+
+.go-back-container button{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: #808080;
+  width: 175px;
+  text-align: center;
+  font-size: 15px;
+  //Todo add image and hoverable
+}
+
+

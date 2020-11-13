@@ -1,0 +1,17 @@
+@import "src/app/pantallas/vista-picking-list/vista-picking-list.component";
+@import "src/app/pantallas/escanear-producto/escanear-producto.component";
+
+#submitProduct{
+  //border: 1px solid green;
+  overflow: hidden;
+  margin: 0;
+}
+
+#submitProduct input{
+
+  padding: 12px 20px;
+  margin: 16px 0;
+  box-sizing: border-box;
+}
+
+

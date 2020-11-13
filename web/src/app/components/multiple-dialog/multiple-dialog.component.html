@@ -1,0 +1,15 @@
+<div class="confirm-dialog-header">
+  <h1 mat-dialog-title>Seleccionar</h1>
+</div>
+<div class="options-wrapper">
+  <div *ngFor="let data of this.data['body']" class="options">
+    <h2>{{data.title}}</h2>
+    <input type="image" src="{{data.img}}" alt="{{data.title}}" (click)="imageClicked(data.action, data.img, data.func)">
+    <p>{{data.description}}</p>
+  </div>
+</div>
+
+<!--<div mat-dialog-actions class="confirm-dialog-actions">
+  <button mat-raised-button color="warn" (click)="accept()">Aceptar</button>
+  <button mat-raised-button (click)="cancel()">Cancelar</button>
+</div>-->

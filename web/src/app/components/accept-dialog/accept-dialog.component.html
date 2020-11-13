@@ -1,0 +1,14 @@
+<div id="accept-dialog-modal">
+  <div class="confirm-dialog-header">
+    <p>{{this.data['textType']}}</p>
+    <h1 [className]="setH1Class(this.data['imgPath'])" mat-dialog-title>{{this.data['text']}}</h1>
+  </div>
+  <div class="image-container" [hidden]="!showImage(this.data['imgPath'])">
+    <img [src]="imgPath" alt="green check-mark">
+  </div>
+  <div  mat-dialog-actions class="confirm-dialog-actions">
+    <button mat-raised-button (click)="close(this.data['route'])">Okay</button>
+  </div>
+</div>
+
+

@@ -1,0 +1,34 @@
+<div id="us">
+  <div>
+    <h1>{{this.vistaPickingListTitle}}</h1>
+    <h2></h2>
+  </div>
+
+  <form [formGroup]="chooseStationForm" (ngSubmit)="onSubmit()" (click)="clickStation($event)" [hidden]="isStationSelected()">
+    <h2>Por favor seleccione la estación en la cual se encuentra actualmente</h2>
+    <div>
+      <label for="zones">Seleccionar Estación</label>
+      <select id="zones" formControlName="station">
+        <option value="" disabled>Estaciones</option>
+        <option *ngFor="let zone of stations" [ngValue]="zone">{{zone.name}}</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit">OK</button>
+    </div>
+  </form>
+  <div id="submit" [hidden]="!isStationSelected()">
+    <h2>Por favor ingrese el código de la caja</h2>
+    <div>
+      <label>
+        <input [(ngModel)]="boxCode" type="number" placeholder="ingrese el código aquí"/>
+      </label>
+    </div>
+    <div>
+      <button mat-raised-button (click)="boxCodeScanned()" class="button">OK</button>
+    </div>
+  </div>
+  <div class="go-back-container">
+    <button (click)="resetStation()" class="button">Reiniciar Estación</button>
+  </div>
+</div>

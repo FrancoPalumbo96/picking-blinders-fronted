@@ -1,0 +1,17 @@
+@import "src/app/pantallas/generacion-picking-list/generacion-picking-list.component";
+@import "src/app/pantallas/impresion-etiquetas/impresion-etiquetas.component";
+h1 {
+  white-space: pre-wrap;
+  line-height : 60px;
+}
+
+.go-back-container button{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: #808080;
+  width: 175px;
+  text-align: center;
+  font-size: 15px;
+  //Todo add image and hoverable
+}

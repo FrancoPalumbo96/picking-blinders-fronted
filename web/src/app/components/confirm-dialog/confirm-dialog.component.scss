@@ -1,0 +1,29 @@
+
+.confirm-dialog-actions {
+  display: flex;
+
+  button {
+    flex: 1;
+  }
+}
+
+.confirm-dialog-header {
+  text-align: -webkit-center;
+}
+
+h1{
+  line-height : 50px;
+  margin: 50px 10px 75px;
+}
+
+p{
+  text-align: center;
+  font-size: 30px;
+  color: #bbbbbb;
+}
+
+
+.mat-prime{
+  color: white;
+  background-color: #008CBA;
+}

@@ -1,0 +1,23 @@
+debug: true
+spring:
+  jpa:
+    database: POSTGRESQL
+    generate-ddl: true
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: create-drop
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5433/fs
+    username: sa
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jackson:
+    serialization:
+      fail-on-empty-beans: false

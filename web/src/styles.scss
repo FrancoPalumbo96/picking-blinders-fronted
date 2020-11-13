@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+
+  margin: 3% 3%;
+}
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-h1, .mat-headline, .mat-typography h1{
+  font-size: 50px;
+  font-family:Roboto, "Helvetica Neue",sans-serif;
+  text-align: center;
+  margin: 50px 10px 100px;
+  line-height : 50px;
+  white-space: pre-wrap; //para que apliquen los \n
+}
+
+.mat-h2, .mat-title, .mat-typography h2 {
+  font-size: 20px;
+  font-weight:400;
+  font-family:Roboto, "Helvetica Neue",sans-serif;
+  text-align: center;
+  margin: 10px;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 16px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button {
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  //text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+
+  font-size: 16px;
+  margin: 16px 0;
+  cursor: pointer;
+}
+
+p {
+  font-size: 14px;
+}
+

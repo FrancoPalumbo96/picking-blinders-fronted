@@ -1,0 +1,73 @@
+@import "src/app/pantallas/generacion-picking-list/generacion-picking-list.component";
+
+h1 {
+  margin: 50px 10px 35px;
+
+}
+//h2 {
+//  text-align: left;
+//}
+
+.wrapper-table-code{
+  //border: 1px solid black;
+  overflow: hidden;
+}
+
+.finish-adding-products-container{
+  text-align: center;
+}
+.finish-adding-products-container button{
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 50%;
+}
+
+#scanned-table {
+  float: left; /* add this */
+  width: 50%;
+  //border: 1px solid red;
+}
+
+#scanned-table h2 {
+  text-align: left;
+  margin-left: 80px;
+}
+
+#submit{
+  //border: 1px solid green;
+  overflow: hidden;
+  margin: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+
+th {
+  text-align: left;
+  padding: 15px;
+  border: 1px solid black;
+}
+tr td{
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+td {
+  text-align: left;
+  padding: 5px 10px;
+}
+//Center second column = Quantity
+tr td:nth-child(2) {
+  text-align: center;
+}
+//Change tables color
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+
+

@@ -1,0 +1,17 @@
+<div id="us">
+  <div>
+    <h1>Generación de picking lists</h1>
+    <h2>Por favor ingrese el código de zona para la cual <br>
+      generar las picking list</h2>
+  </div>
+  <div id="submit">
+    <div>
+      <label>
+        <input [(ngModel)]="code" type="number" placeholder="ingrese el código aquí"/>
+      </label>
+    </div>
+    <div>
+      <button mat-raised-button (click)="generatePickingLists()" class="button">OK</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="confirm-dialog-header">
+  <p>{{this.data['textType']}}</p>
+  <h1 mat-dialog-title>{{this.data['text']}}</h1>
+</div>
+<div mat-dialog-actions class="confirm-dialog-actions">
+  <button mat-raised-button id="accept-button" [ngClass]="this.setClass(this.data['class'])" (click)="accept()">Aceptar</button>
+  <button mat-raised-button (click)="cancel()">Cancelar</button>
+</div>
