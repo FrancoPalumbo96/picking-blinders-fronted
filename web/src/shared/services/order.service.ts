@@ -16,7 +16,7 @@ export class OrderService {
   public generatePickingLists(zone: string): Observable<boolean> {
     return this.http.get(this.ordersUrl + '/generateLists/' + zone).pipe(
       map((res: any) => {
-        return true;
+        return res;
       }),
       catchError(() => {
         return of(false);

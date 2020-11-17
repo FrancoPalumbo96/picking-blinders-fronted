@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    List<Order> findByZone(String zone);
+    List<Order> findByZoneAndGeneratedFalse(String zone);
+
+
 }

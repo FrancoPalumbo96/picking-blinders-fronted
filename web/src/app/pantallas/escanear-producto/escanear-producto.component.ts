@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
-import {OrderService} from "../../../shared/services/order.service";
 import {AcceptDialogComponent} from "../../components/accept-dialog/accept-dialog.component";
 import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
+import {BoxService} from "../../../shared/services/box.service";
+import {LocalStorageService} from "../../components/services/local-storage/local-storage.service";
+import {PickingListProductQuantity} from "../../../shared/models/pickingListProductQuantity";
 
 
 @Component({
@@ -13,105 +15,84 @@ import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-di
 })
 export class EscanearProductoComponent implements OnInit {
 
-  public boxCode: number;
-  dataTable: any;
+  private boxCode: number;
+  productCode: number;
+  dataTable: PickingListProductQuantity[];
+
   constructor(public dialog: MatDialog,
               private _activateRoute: ActivatedRoute,
-              private _router: Router) { }
+              private _router: Router,
+              private boxService: BoxService,
+              private localStorageService: LocalStorageService) { }
 
   ngOnInit(): void {
-    this.dataTable = this.generateDataTable();
+    this.boxCode = this.localStorageService.get("currentBoxId");
+    this.generateDataTable();
   }
 
-  //Todo traer del back
-  generateDataTable(){
-    return [
-      {
-        "id": 1,
-        "product": "Pack lapiceras (x12)",
-        "quantity": 1
-      },
-      {
-        "id": 2,
-        "product": "Liquid Paper (x3)",
-        "quantity": 3
-      },
-      {
-        "id": 3,
-        "product": "Borratintas (x2)",
-        "quantity": 2
-      },
-      {
-        "id": 4,
-        "product": "Cuaderno",
-        "quantity": 1
-      },
-      {
-        "id": 5,
-        "product": "Goma (x6)",
-        "quantity": 2
-      },
-    ]
-  }
-
-
-  getBoxCode(){
-    return this.boxCode;
+  generateDataTable() {
+    this.boxService.getBoxStationProducts(this.boxCode, this.localStorageService.get("currentWorkingStationId")).subscribe((data) => {
+      this.dataTable = data;
+    });
   }
 
   addProductToBox() {
-    if(this.boxCode == null){
+    if(this.productCode == null){
       this.openSimpleAlertDialog("Ingresar un código de producto");
-      return
+      return;
     }
-    if(!this.isBoxCodeValid()){
+    if(!this.isProductCodeValid()){
       this.openSimpleAlertDialog("El código ingresado no pertenece a un producto de esta caja");
       return;
     } else {
-      this.editData()
+      this.editData();
     }
   }
 
 
   finishAddingProducts(){
-    const productsLeft = Object.keys(this.dataTable).length;
-    if(productsLeft == 0){
-      this.openRouteDialog("La caja ha finalizado correctamente", "../../../assets/images/gc.png")
+    if(this.getProductsLeft() == 0) {
+      this.openRouteDialog("La caja ha finalizado correctamente", "../../../assets/images/gc.png");
+      this.boxService.updateProductQuantities(this.dataTable).subscribe();
     } else {
       this.openConfirmDialog("Hay productos que no han sido agregados. \n ¿Desea Finalizar la Caja?",
         () => {
-          //Todo cambiar estado de la caja a 'Faltante'
+          this.boxService.changeBoxStateToMissing(this.boxCode).subscribe();
+          this.boxService.updateProductQuantities(this.dataTable).subscribe();
           this.openRouteDialog("La caja ha finalizado con productos faltantes",
             "../../../assets/images/warning.png");
       });
     }
   }
-  //Todo editar tablas de bd para indicar que el producto fue agregado
+
   editData(){
-    this.getProductById(this.boxCode).quantity -= 1;
-    if(this.getProductById(this.boxCode).quantity == 0){
-      const boxSelected = this.boxCode;
-      const index = this.dataTable.findIndex(function(prod, i){
-        return prod.id == boxSelected
-      });
-      this.dataTable.splice(index, 1);
-      const productsLeft = Object.keys(this.dataTable).length;
-      if(productsLeft == 0){
+    this.getProductById(this.productCode).missingQuantity -= 1;
+    if(this.getProductById(this.productCode).missingQuantity == 0){
+      if(this.getProductsLeft() == 0){
         this.finishAddingProducts();
       }
     }
   }
 
-  getProductById(id){
-    return this.dataTable.find(prod => prod.id == id)
+  getProductById(id) {
+    return this.dataTable.find(pq => pq.product.id == id);
   }
 
-  isBoxCodeValid():boolean{
-    return this.getProductById(this.boxCode) != undefined;
+  isProductCodeValid(): boolean {
+    let prod = this.getProductById(this.productCode);
+    return prod != undefined && prod.missingQuantity > 0;
+  }
+
+  getProductsLeft() {
+    let res = 0;
+    this.dataTable.forEach(pq => {
+      if (pq.missingQuantity > 0) res++;
+    });
+    return res;
   }
 
   //TODO este metodo se repite en varios components, meterlo en un service
-  openSimpleAlertDialog(text){
+  openSimpleAlertDialog(text) {
     this.dialog.open(AcceptDialogComponent, {
       "data": {
         "text": text,

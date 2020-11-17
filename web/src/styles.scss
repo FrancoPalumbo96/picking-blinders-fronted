@@ -1,25 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 
+input[type=number] {
+  border: 2px solid #00cccc;
+  border-radius: 4px;
+}
+
+
 html, body {
   height: 100%;
 
+
+}
+#us {
   margin: 3% 3%;
 }
+
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .mat-h1, .mat-headline, .mat-typography h1{
-  font-size: 50px;
+  font-size: 70px;
   font-family:Roboto, "Helvetica Neue",sans-serif;
   text-align: center;
   margin: 50px 10px 100px;
-  line-height : 50px;
+  line-height : 70px;
   white-space: pre-wrap; //para que apliquen los \n
 }
 
 .mat-h2, .mat-title, .mat-typography h2 {
-  font-size: 20px;
+  font-size: 30px;
   font-weight:400;
   font-family:Roboto, "Helvetica Neue",sans-serif;
   text-align: center;
@@ -37,7 +47,7 @@ input[type=text], select {
 }
 
 .button {
-  background-color: #008CBA;
+  background-color: #00cccc;
   border: none;
   color: white;
   padding: 12px 20px;
@@ -46,12 +56,12 @@ input[type=text], select {
   display: inline-block;
   border-radius: 4px;
 
-  font-size: 16px;
+  font-size: 20px;
   margin: 16px 0;
   cursor: pointer;
 }
 
 p {
-  font-size: 14px;
+  font-size: 16px;
 }
 

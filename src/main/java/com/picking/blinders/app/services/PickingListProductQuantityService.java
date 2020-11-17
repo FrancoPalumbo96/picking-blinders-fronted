@@ -1,5 +1,6 @@
 package com.picking.blinders.app.services;
 
+import com.picking.blinders.app.models.Label;
 import com.picking.blinders.app.models.PickingListProductQuantity;
 import com.picking.blinders.app.repositories.PickingListProductQuantityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,4 +16,10 @@ public class PickingListProductQuantityService {
     public List<PickingListProductQuantity> getPickingListProductQuantityByPickingListId(Long pickingListId){
         return pickingListProductQuantityRepository.findByPickingList_Id(pickingListId);
     }
+
+    public PickingListProductQuantity findById(Long id) {
+        return pickingListProductQuantityRepository.findById(id).orElseThrow();
+    }
+
+    public void saveAll(List<PickingListProductQuantity> pqs) { pickingListProductQuantityRepository.saveAll(pqs);}
 }
