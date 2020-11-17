@@ -11,14 +11,14 @@ button{
 .print-tags-container > button{
   width: 200px;
 
-  background-color: #008CBA;
+  background-color: #00cccc;
   border: none;
   color: white;
   padding: 12px 20px;
   text-align: center;
   display: inline-block;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 20px;
   margin: 16px 0;
   cursor: pointer;
 }
@@ -37,8 +37,9 @@ input[type=text], select {
 div {
   text-align: center;
 }
+
 button {
-  background-color: #008CBA;
+  background-color: #00cccc;
   border: none;
   color: white;
   padding: 12px 20px;
@@ -47,7 +48,7 @@ button {
   display: inline-block;
   border-radius: 4px;
 
-  font-size: 16px;
+  font-size: 20px;
   margin: 16px 0;
   cursor: pointer;
 }
@@ -62,13 +63,23 @@ label {
 
 .go-back-container button{
   position: absolute;
-  right: 10px;
-  top: 10px;
-  background-color: #808080;
-  width: 175px;
+  right: 6%;
+  top: 57px;
+  background-color: #9fa5ab;
+  width: auto;
   text-align: center;
-  font-size: 15px;
-  //Todo add image and hoverable
+  font-size: 20px;
 }
 
 
+.reprint-container button{
+  position: absolute;
+  left: 6%;
+  top: 10px;
+  background-color: #9fa5ab;
+  width: auto;
+  text-align: center;
+  font-size: 20px;
+}
+
+//#a9b7c4

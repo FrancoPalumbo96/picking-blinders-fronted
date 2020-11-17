@@ -20,6 +20,7 @@ public class PickingList {
     @JoinColumn(name = "box_id")
     private Box box;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "pickingList",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)

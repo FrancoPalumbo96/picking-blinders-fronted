@@ -32,24 +32,7 @@ export class DerivadorComponent implements OnInit {
   isBoxStateValid(boxId: number) {
     this.boxService.boxState(this.boxCode).subscribe((res) => {
       if(res){
-        let aux = res.name
-        switch (boxId){
-          case 70:
-            aux = "Calidad";
-            break;
-          case 71:
-            aux = "Fallo";
-            break;
-          case 72:
-            aux = "Finalizado";
-            break;
-          case 73:
-            aux = "Faltante";
-            break
-          default:
-            aux = "Faltante"
-        }
-        switch (aux){
+        switch (res.name){
           case "En curso":
             //Todo nose que hacer en este caso
             console.log("Id not corresponding to a state")

@@ -4,6 +4,7 @@ import {AcceptDialogComponent} from "../../components/accept-dialog/accept-dialo
 import {MatDialog} from "@angular/material/dialog";
 import {BoxService} from "../../../shared/services/box.service";
 import {MultipleDialogComponent} from "../../components/multiple-dialog/multiple-dialog.component";
+import {PickingListProductQuantity} from "../../../shared/models/pickingListProductQuantity";
 
 @Component({
   selector: 'app-producto-faltante',
@@ -16,12 +17,12 @@ export class ProductoFaltanteComponent implements OnInit {
   boxCode: number;
   productCode: number;
   boxSelected: Box = undefined;
-  dataTable: any;
+  dataTable: PickingListProductQuantity[];
+
   constructor(public dialog: MatDialog,
               public boxService: BoxService,) { }
 
   ngOnInit(): void {
-    this.dataTable = this.generateDataTable();
   }
 
   isBoxSelected(): boolean {
@@ -40,44 +41,79 @@ export class ProductoFaltanteComponent implements OnInit {
   isBoxCodeValid() {
     this.boxService.existsBox(this.boxCode).subscribe((res) => {
       if(res){
-        //TODO mostrar tabla de productos que faltan en la caja
+        if (res.state.name !== "Faltante") {
+          this.openSimpleAlertDialog("Caja no asignada para estación de faltantes");
+          return;
+        }
         this.boxSelected = res;
+        this.generateDataTable();
       } else {
         this.openSimpleAlertDialog("Código de caja inválido");
       }
     });
   }
 
-  productCodeScanned(){
+  generateDataTable() {
+    this.boxService.getBoxMissingProducts(this.boxCode).subscribe((data) => {
+      this.dataTable = data;
+    });
+  }
+
+  addProductToBox() {
     if(this.productCode == null){
       this.openSimpleAlertDialog("Ingresar un código de producto");
-      return
-    } else {
-      this.isProductCodeValid()
+      return;
     }
+    if(!this.isProductCodeValid()){
+      this.openSimpleAlertDialog("El código ingresado no pertenece a un producto de esta caja");
+      return;
+    } else {
+      this.editData();
+    }
+  }
+
+  editData(){
+    this.getProductById(this.productCode).missingQuantity -= 1;
+    if(this.getProductById(this.productCode).missingQuantity == 0){
+      if(this.getProductsLeft() == 0){
+        this.finishAddingProducts();
+      }
+    }
+  }
+
+  getProductsLeft() {
+    let res = 0;
+    this.dataTable.forEach(pq => {
+      if (pq.missingQuantity > 0) res++;
+    });
+    return res;
   }
 
   private isProductCodeValid() {
-    const aux = this.getProductById(this.productCode);
-    if(aux != undefined){
-      //Edit table
-      this.editData()
-    } else {
-      this.openSimpleAlertDialog("El código ingresado no pertenece a un producto de esta caja");
-    }
+    let prod = this.getProductById(this.productCode);
+    return prod != undefined && prod.missingQuantity > 0;
+  }
 
+  getProductById(id){
+    return this.dataTable.find(pq => pq.product.id == id);
   }
 
   finishAddingProducts() {
-    const productsLeft = Object.keys(this.dataTable).length;
-    if(productsLeft == 0){
-      //TODO mostrar 2 opciones
+    if(this.getProductsLeft() == 0){
+      this.boxService.changeBoxStateToFinished(this.boxCode).subscribe();
       this.openSimpleAlertDialog("La caja ha sido completada", "../../../assets/images/cs.png");
-      this.boxSelected = undefined;
-      this.dataTable = this.generateDataTable();
+      this.finishControl();
     } else {
       this.openMultipleSelectionDialog();
     }
+  }
+
+  finishControl() {
+    this.boxService.updateProductQuantities(this.dataTable).subscribe();
+    this.boxCode = null;
+    this.productCode = null;
+    this.dataTable = null;
+    this.boxSelected = undefined;
   }
 
   openMultipleSelectionDialog(){
@@ -89,7 +125,10 @@ export class ProductoFaltanteComponent implements OnInit {
             "description": "Comunicar que la caja se enviará con productos faltantes",
             "img": "../../../assets/images/mail.png",
             "action": "pedido-incompleto",
-            "func": () => {this.boxSelected = undefined;}
+            "func": () => {
+              this.boxService.changeBoxStateToFinished(this.boxCode).subscribe();
+              this.finishControl();
+            }
           },
           {
             "title": "Agregar Productos",
@@ -111,40 +150,4 @@ export class ProductoFaltanteComponent implements OnInit {
       }
     });
   }
-
-  generateDataTable(){
-    return [
-      {
-        "id": 1,
-        "product": "Pack lapiceras (x12)",
-        "quantity": 2
-      },
-      {
-        "id": 2,
-        "product": "Cuaderno",
-        "quantity": 1
-      }
-    ]
-  }
-
-  getProductById(id){
-    return this.dataTable.find(prod => prod.id == id)
-  }
-
-  editData(){
-    console.log()
-    this.getProductById(this.productCode).quantity -= 1;
-    if(this.getProductById(this.productCode).quantity == 0){
-      const boxSelected = this.productCode;
-      const index = this.dataTable.findIndex(function(prod, i){
-        return prod.id == boxSelected
-      });
-      this.dataTable.splice(index, 1);
-      const productsLeft = Object.keys(this.dataTable).length;
-      if(productsLeft == 0){
-        this.finishAddingProducts();
-      }
-    }
-  }
-
 }

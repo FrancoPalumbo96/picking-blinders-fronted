@@ -18,6 +18,8 @@ public class Order {
     @NotBlank(message = "Zone can not be blank")
     private String zone;
 
+    private boolean generated = false;
+
     @JsonIgnore
     //TODO FetchType creo que conviene Lazy, pero en insuarance estamos usando Eager
     @ManyToOne(fetch = FetchType.EAGER)
@@ -88,5 +90,13 @@ public class Order {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public boolean isGenerated() {
+        return generated;
+    }
+
+    public void setGenerated(boolean generated) {
+        this.generated = generated;
     }
 }

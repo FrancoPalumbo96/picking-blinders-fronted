@@ -27,10 +27,12 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let data of dataTable">
-            <td>{{data.product}}</td>
-            <td>{{data.quantity}}</td>
-          </tr>
+          <ng-container *ngFor="let data of dataTable">
+            <tr *ngIf="data.missingQuantity > 0">
+              <td>{{data.product.name}}</td>
+              <td>{{data.missingQuantity}}</td>
+            </tr>
+          </ng-container>
           </tbody>
         </table>
       </div>
@@ -42,7 +44,7 @@
           </label>
         </div>
         <div>
-          <button (click)="productCodeScanned()" class="button">Agregar</button>
+          <button (click)="addProductToBox()" class="button">Agregar</button>
         </div>
       </div>
     </div>

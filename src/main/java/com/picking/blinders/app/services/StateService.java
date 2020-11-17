@@ -26,5 +26,5 @@ public class StateService {
         return stateRepository.findById(estadoId).orElseThrow(() -> new ResourceNotFoundException("Estado not found."));
     }
 
-    public List<State> findByName(String name) { return stateRepository.findByName(name);}
+    public State findByName(String name) { return stateRepository.findByName(name);}
 }

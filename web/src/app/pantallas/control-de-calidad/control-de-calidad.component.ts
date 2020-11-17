@@ -5,6 +5,7 @@ import {AcceptDialogComponent} from "../../components/accept-dialog/accept-dialo
 import {Router} from "@angular/router";
 import {Box} from "../../../shared/models/box";
 import {MultipleDialogComponent} from "../../components/multiple-dialog/multiple-dialog.component";
+import {PickingListProductQuantity} from "../../../shared/models/pickingListProductQuantity";
 
 @Component({
   selector: 'app-control-de-calidad',
@@ -17,13 +18,13 @@ export class ControlDeCalidadComponent implements OnInit {
   public boxCode: number;
   public productCode: number;
   public boxSelected: Box = undefined;
-  dataTable: any;
+  dataTable: PickingListProductQuantity[];
+
   constructor(public dialog: MatDialog,
               public boxService: BoxService,
               ) { }
 
   ngOnInit(): void {
-    this.dataTable = this.generateDataTable();
   }
 
   //TODO make it a service to avoid repetition
@@ -39,58 +40,75 @@ export class ControlDeCalidadComponent implements OnInit {
   isBoxCodeValid() {
     this.boxService.existsBox(this.boxCode).subscribe((res) => {
       if(res){
-        //TODO mostrar tabla de productos que deberia tener la caja
+        if (res.state.name !== "Calidad") {
+          this.openSimpleAlertDialog("Caja no asignada para control de calidad");
+          return;
+        }
         this.boxSelected = res;
+        this.generateDataTable();
       } else {
         this.openSimpleAlertDialog("Código de caja inválido");
       }
     });
   }
 
-  isBoxSelected(): boolean {
-    return this.boxSelected != undefined;
+  generateDataTable() {
+    this.boxService.getAllBoxProducts(this.boxCode).subscribe((data) => {
+      this.dataTable = data;
+    });
   }
 
-  productCodeScanned(){
+  addProductToBox() {
     if(this.productCode == null){
       this.openSimpleAlertDialog("Ingresar un código de producto");
-      return
-    } else {
-      this.isProductCodeValid()
+      return;
     }
-  }
-
-  private isProductCodeValid() {
-    const aux = this.getProductById(this.productCode);
-    if(aux != undefined){
-      //Edit table
-      this.editData()
-    } else {
+    if(!this.isProductCodeValid()){
       this.openSimpleAlertDialog("El código ingresado no pertenece a un producto de esta caja");
+      return;
+    } else {
+      this.editData();
     }
-    //TODO servicio que busca producto por id:
-
-    //TODO servicio que verifica si el producto es necesario en esta caja
   }
 
-
-  editTableData() {
-    this.getProductById(this.boxCode).quantity -= 1;
-    if(this.getProductById(this.boxCode).quantity == 0){
-      const boxSelected = this.boxCode;
-      const index = this.dataTable.findIndex(function(prod, i){
-        return prod.id == boxSelected
-      });
-      this.dataTable.splice(index, 1);
-      const productsLeft = Object.keys(this.dataTable).length;
-      if(productsLeft == 0){
+  editData(){
+    this.getProductById(this.productCode).quantity -= 1;
+    if(this.getProductById(this.productCode).quantity == 0){
+      if(this.getProductsLeft() == 0){
         this.finishAddingProducts();
       }
     }
   }
 
+  getProductsLeft() {
+    let res = 0;
+    this.dataTable.forEach(pq => {
+      if (pq.quantity > 0) res++;
+    });
+    return res;
+  }
+
+  isBoxSelected(): boolean {
+    return this.boxSelected != undefined;
+  }
+
+  private isProductCodeValid() {
+    let prod = this.getProductById(this.productCode);
+    return prod != undefined && prod.quantity > 0;
+    //TODO servicio que busca producto por id:
+
+    //TODO servicio que verifica si el producto es necesario en esta caja
+  }
+
   getProductById(id){
-    return this.dataTable.find(prod => prod.id == id)
+    return this.dataTable.find(pq => pq.product.id == id);
+  }
+
+  finishControl() {
+    this.boxCode = null;
+    this.productCode = null;
+    this.dataTable = null;
+    this.boxSelected = undefined;
   }
 
   openSimpleAlertDialog(text){
@@ -121,21 +139,30 @@ export class ControlDeCalidadComponent implements OnInit {
             "description": "La caja no posee uno o mas productos en su interior.",
             "img": "../../../assets/images/search.png",
             "action": "faltante",
-            "func": () => {this.boxSelected = undefined;}
+            "func": () => {
+              this.boxService.changeBoxStateToMissing(this.boxCode).subscribe();
+              this.finishControl();
+            }
           },
           {
             "title": "Fallas",
             "description": "La caja no ha pasado el control de calidad por tener fallas.",
             "img": "../../../assets/images/wrench.png",
             "action": "fallada",
-            "func": () => {this.boxSelected = undefined;}
+            "func": () => {
+              this.boxService.changeBoxStateToFlawed(this.boxCode).subscribe();
+              this.finishControl();
+            }
           },
           {
             "title": "Aprobar caja",
             "description": "La caja ha pasado el control de calidad.",
             "img": "../../../assets/images/cs.png",
             "action": "aprobada",
-            "func": () => {this.boxSelected = undefined;}
+            "func": () => {
+              this.boxService.changeBoxStateToFinished(this.boxCode).subscribe();
+              this.finishControl();
+            }
           }
         ]
       }
@@ -151,14 +178,20 @@ export class ControlDeCalidadComponent implements OnInit {
             "description": "La caja no ha pasado el control de calidad por tener fallas.",
             "img": "../../../assets/images/wrench.png",
             "action": "fallada",
-            "func": () => {this.boxSelected = undefined;}
+            "func": () => {
+              this.boxService.changeBoxStateToFlawed(this.boxCode).subscribe();
+              this.finishControl();
+            }
           },
           {
             "title": "Aprobar caja",
             "description": "La caja ha pasado el control de calidad.",
             "img": "../../../assets/images/cs.png",
             "action": "aprobada",
-            "func": () => {this.boxSelected = undefined;}
+            "func": () => {
+              this.boxService.changeBoxStateToFinished(this.boxCode).subscribe();
+              this.finishControl();
+            }
           }
         ]
       }
@@ -166,56 +199,10 @@ export class ControlDeCalidadComponent implements OnInit {
   }
 
   finishAddingProducts() {
-    const productsLeft = Object.keys(this.dataTable).length;
-    if(productsLeft == 0){
+    if(this.getProductsLeft() == 0){
       this.openCompleteBoxSelectionDialog();
     } else {
       this.openMultipleSelectionDialog();
-    }
-  }
-
-  generateDataTable(){
-    return [
-      {
-        "id": 1,
-        "product": "Pack lapiceras (x12)",
-        "quantity": 1
-      },
-      {
-        "id": 2,
-        "product": "Liquid Paper (x3)",
-        "quantity": 3
-      },
-      {
-        "id": 3,
-        "product": "Borratintas (x2)",
-        "quantity": 2
-      },
-      {
-        "id": 4,
-        "product": "Cuaderno",
-        "quantity": 1
-      },
-      {
-        "id": 5,
-        "product": "Goma (x6)",
-        "quantity": 2
-      },
-    ]
-  }
-  editData(){
-    console.log()
-    this.getProductById(this.productCode).quantity -= 1;
-    if(this.getProductById(this.productCode).quantity == 0){
-      const boxSelected = this.productCode;
-      const index = this.dataTable.findIndex(function(prod, i){
-        return prod.id == boxSelected
-      });
-      this.dataTable.splice(index, 1);
-      const productsLeft = Object.keys(this.dataTable).length;
-      if(productsLeft == 0){
-        this.finishAddingProducts();
-      }
     }
   }
 }

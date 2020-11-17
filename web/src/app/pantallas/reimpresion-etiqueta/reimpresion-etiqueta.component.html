@@ -1,0 +1,28 @@
+<div id="us">
+  <div>
+    <h1>Reimpresión de etiqueta</h1>
+    <h2></h2>
+  </div>
+  <form [formGroup]="reprintTagForm" (ngSubmit)="selectedZoneChange()">
+    <div>
+      <label for="zones">Seleccionar Zona</label>
+      <select id="zones" formControlName="zoneName" [(ngModel)]="selectedZone" (change)="selectedZoneChange()">
+        <option value="" disabled>Zonas</option>
+        <option *ngFor="let zone of zones" [ngValue]="zone">{{zone}}</option>
+      </select>
+    </div>
+    <div [hidden]="!selectedZone">
+      <label for="tags">Seleccionar Etiqueta</label>
+      <select id="tags" formControlName="tagName" [(ngModel)]="selectedTag">
+        <option value="" disabled>Etiquetas</option>
+        <option *ngFor="let tag of boxes" [ngValue]="tag.id">{{tag.id}}</option>
+      </select>
+    </div>
+    <div class="print-tags-container" [hidden]="!selectedTag">
+      <button type="submit" (click)="printTag()">Imprimir Nueva Etiqueta</button>
+    </div>
+  </form>
+  <div class="reprint-container" [hidden]="">
+    <button  (click)="goToPrintTags()" class="button">Imprimir Etiqueta</button>
+  </div>
+</div>

@@ -3,7 +3,7 @@
     <h1>{{impresionPickingListTitle}}</h1>
     <h2></h2>
   </div>
-  <form [formGroup]="printTagsForm" (ngSubmit)="selectedZoneChange()" (click)="clickTag($event)" [hidden]="isZoneSelected()">
+  <form [formGroup]="printTagsForm" (ngSubmit)="selectedZoneChange()" (change)="clickTag($event)" [hidden]="isZoneSelected()">
     <div>
       <label for="tags">Seleccionar Zona</label>
       <select id="tags" formControlName="tagName" [(ngModel)]="selectedZone">
@@ -18,7 +18,10 @@
   <div class="print-tags-container" [hidden]="!isZoneSelected()">
     <button type="submit" (click)="printTag()">Imprimir Etiqueta</button>
   </div>
-  <div class="go-back-container">
+  <div class="go-back-container" [hidden]="!isZoneSelected()">
     <button  (click)="resetZone()" class="button">Reiniciar Zona</button>
+  </div>
+  <div class="reprint-container" [hidden]="">
+    <button  (click)="goToReprintTag()" class="button">Reimprimir Etiqueta</button>
   </div>
 </div>

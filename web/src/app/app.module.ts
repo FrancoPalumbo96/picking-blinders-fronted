@@ -34,6 +34,8 @@ import { DerivadorComponent } from './pantallas/derivador/derivador/derivador.co
 import { ControlDeCalidadComponent } from './pantallas/control-de-calidad/control-de-calidad.component';
 import { MultipleDialogComponent } from './components/multiple-dialog/multiple-dialog.component';
 import { ProductoFaltanteComponent } from './pantallas/producto-faltante/producto-faltante.component';
+import {CommonModule} from "@angular/common";
+import { ReimpresionEtiquetaComponent } from './pantallas/reimpresion-etiqueta/reimpresion-etiqueta.component';
 
 
 
@@ -53,27 +55,29 @@ import { ProductoFaltanteComponent } from './pantallas/producto-faltante/product
     ControlDeCalidadComponent,
     MultipleDialogComponent,
     ProductoFaltanteComponent,
+    ReimpresionEtiquetaComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSnackBarModule,
-    MatTableModule,
-    MatIconModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSortModule,
-    MatDialogModule,
-    MatToolbarModule,
-    FormsModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSnackBarModule,
+        MatTableModule,
+        MatIconModule,
+        MatCardModule,
+        MatProgressSpinnerModule,
+        MatPaginatorModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSortModule,
+        MatDialogModule,
+        MatToolbarModule,
+        FormsModule,
+        CommonModule,
+    ],
   providers: [PickingListRouterGuard, OrderService, LabelService, BoxService, StationService],
   bootstrap: [AppComponent]
 })

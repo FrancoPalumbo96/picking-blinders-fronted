@@ -98,6 +98,7 @@ export class VistaPickingListComponent implements OnInit {
     this.boxService.isBoxNeeded(this.boxCode, this.currentStation.id).subscribe((res) => {
       if(res){
         this.persist("currentWorkingStationId", this.currentStation.id);
+        this.persist("currentBoxId", this.boxCode);
         this._router.navigate(["/escanear_productos"])
       } else {
         this.openSimpleAlertDialog("Esta caja no necesita artículos de esta estación")
@@ -121,7 +122,7 @@ export class VistaPickingListComponent implements OnInit {
   openPrintTagDialog(zone: string){
     this.dialog.open(AcceptDialogComponent, {
       "data": {
-        "text": "La estaci " + zone + " ha sido impresa",
+        "text": "La estación " + zone + " ha sido impresa",
         "textType": "Alert"
       }
     });

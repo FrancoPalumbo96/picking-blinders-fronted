@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LabelService} from "../../../shared/services/label.service";
 import {Label} from "../../../shared/models/label";
 import {FormBuilder} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-impresion-etiquetas',
@@ -20,7 +21,8 @@ export class ImpresionEtiquetasComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private labelService: LabelService,
-              public fb: FormBuilder) { }
+              public fb: FormBuilder,
+              private _router: Router,) { }
 
   ngOnInit(): void {
     this.getZones();
@@ -44,7 +46,6 @@ export class ImpresionEtiquetasComponent implements OnInit {
 
       this.labelService.findLabels(this.selectedZone).subscribe((data) => {
         this.labels = data;
-        console.log(data);
       });
     }
   }
@@ -114,5 +115,9 @@ export class ImpresionEtiquetasComponent implements OnInit {
 
   removeZone(zoneIndex){
     this.zones.splice(zoneIndex, 1);
+  }
+
+  goToReprintTag(){
+    this._router.navigate(["/reimpresion"])
   }
 }
