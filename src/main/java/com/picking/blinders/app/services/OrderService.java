@@ -25,7 +25,7 @@ public class OrderService {
         return (List<Order>) orderRepository.findAll();
     }
 
-    public List<Order> findByZone(String zone) { return orderRepository.findByZone(zone);}
+    public List<Order> getOrdersForZone(String zone) { return orderRepository.findByZoneAndGeneratedFalse(zone);}
 
     public Order getOrderById(Long orderId){
         return orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found."));

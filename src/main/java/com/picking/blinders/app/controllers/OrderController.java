@@ -27,11 +27,10 @@ public class OrderController {
     private final double BOX_FILLING_PERCENTAGE = 0.9;
 
     @GetMapping("generateLists/{zone}")
-    public ResponseEntity<String> getClientById(@PathVariable String zone) {
-        System.out.println("Me llamaron para zona: " + zone);
-        List<Order> orders = orderService.findByZone(zone);
+    public ResponseEntity<Boolean> getClientById(@PathVariable String zone) {
+        List<Order> orders = orderService.getOrdersForZone(zone);
         if (orders.isEmpty()) {
-            throw new ResourceNotFoundException("No orders for that zone found");
+            return new ResponseEntity<>(false, HttpStatus.OK);
         } else {
             int volumeToFill = (int) (BOX_VOLUME * BOX_FILLING_PERCENTAGE);
             List<Label> labels = new ArrayList<>();
@@ -45,9 +44,9 @@ public class OrderController {
                 while (bool) {
                     State state;
                     if (Math.random() < 0.2) {
-                        state = stateService.findByName("Calidad").get(0);
+                        state = stateService.findByName("Calidad");
                     } else {
-                        state = stateService.findByName("En curso").get(0);
+                        state = stateService.findByName("En curso");
                     }
                     Box box = new Box(state, order, boxNumber, totalBoxes);
                     boxNumber++;
@@ -76,6 +75,7 @@ public class OrderController {
                     b.setTotalBoxes(totalBoxes);
                     order.addBox(b);
                 }
+                order.setGenerated(true);
             }
             try {
                 orderService.saveOrders(orders);
@@ -88,7 +88,7 @@ public class OrderController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return new ResponseEntity<>("", HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
     }
 }

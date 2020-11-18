@@ -28,6 +28,14 @@ export class LabelService {
     );
   }
 
+  public getAllZonesWithPrintedTags(): Observable<string[]> {
+    return this.http.get(this.labelsUrl + '/getAllZonesWithPrintedTags').pipe(
+      map((res: any) => {
+        return res.map((zone) => zone)
+      })
+    )
+  }
+
   get zones(): Observable<string[]> {
     return this.zonesList
       ? new Observable<string[]>((subscriber) =>
@@ -45,6 +53,18 @@ export class LabelService {
         return [];
       })
     );
+  }
+
+  public findLabelsWithBoxStateFail(zone): Observable<Label[]> {
+    return this.http.get(this.labelsUrl + '/getLabelsWithBoxStateFail/' + zone).pipe(
+      map((res: any) => {
+        console.log(res)
+        return res.map((label) => Label.fromJsonObject(label))
+      }),
+      catchError(() => {
+        return [];
+      })
+    )
   }
 
   public printLabel(label: Label): Observable<boolean> {

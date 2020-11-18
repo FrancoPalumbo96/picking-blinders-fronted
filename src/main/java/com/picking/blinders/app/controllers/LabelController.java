@@ -26,6 +26,13 @@ public class LabelController {
         return new ResponseEntity<>(zones, HttpStatus.OK);
     }
 
+    @GetMapping("getAllZonesWithPrintedTags")
+    public ResponseEntity<List<String>> getAllZones() {
+        System.out.println("Me llamaron para averiguar todas las zonas");
+        List<String> zones = labelService.getAllZonesWithPrintedTags();
+        return new ResponseEntity<>(zones, HttpStatus.OK);
+    }
+
     @GetMapping("getLabels/{zone}")
     public ResponseEntity<List<Label>> getLabels(@PathVariable String zone) {
         System.out.println("Me llamaron para conseguir las etiquetas de la zona " + zone);
@@ -33,8 +40,17 @@ public class LabelController {
         return new ResponseEntity<>(labels, HttpStatus.OK);
     }
 
+    @GetMapping("getLabelsWithBoxStateFail/{zone}")
+    public ResponseEntity<List<Label>> getLabelsWithBoxStateFail(@PathVariable String zone) {
+        System.out.println("Me llamaron para conseguir las etiquetas de la zonaaaaa " + zone);
+        List<Label> labels = labelService.getLabelsWithBoxStateFail(zone);
+        return new ResponseEntity<>(labels, HttpStatus.OK);
+    }
+
     @GetMapping("printLabel/{id}")
     public void printLabel(@PathVariable Long id) {
         labelService.printLabel(id);
     }
+
+
 }

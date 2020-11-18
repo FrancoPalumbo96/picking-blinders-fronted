@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface StateRepository extends CrudRepository<State, Long> {
 
-    List<State> findByName(String name);
+    State findByName(String name);
 }

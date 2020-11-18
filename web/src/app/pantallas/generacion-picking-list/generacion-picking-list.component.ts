@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog} from "@angular/material/dialog";
-import {ConfirmDialogComponent} from "../../components/confirm-dialog/confirm-dialog.component";
 import {AcceptDialogComponent} from "../../components/accept-dialog/accept-dialog.component";
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import {OrderService} from "../../../shared/services/order.service";
 
 @Component({
@@ -44,7 +42,7 @@ export class GeneracionPickingListComponent implements OnInit {
         } else {
           this.dialog.open(AcceptDialogComponent, {
             "data": {
-              "text": "Código de zona inválida",
+              "text": "No hay pedidos para la zona ingresada",
               "textType": "Alert"
             }
           });

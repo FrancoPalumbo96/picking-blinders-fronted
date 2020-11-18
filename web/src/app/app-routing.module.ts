@@ -10,6 +10,7 @@ import {DerivadorComponent} from "./pantallas/derivador/derivador/derivador.comp
 import {ControlDeCalidadComponent} from "./pantallas/control-de-calidad/control-de-calidad.component";
 // @ts-ignore
 import {ProductoFaltanteComponent} from "./pantallas/producto-faltante/producto-faltante.component";
+import {ReimpresionEtiquetaComponent} from "./pantallas/reimpresion-etiqueta/reimpresion-etiqueta.component";
 
 const routes: Routes = [
   {path: 'generacion_picking_list', component: GeneracionPickingListComponent},
@@ -19,8 +20,8 @@ const routes: Routes = [
   {path: 'escanear_productos', component:EscanearProductoComponent},
   {path: 'derivador', component: DerivadorComponent},
   {path: 'control-de-calidad', component:ControlDeCalidadComponent},
-  {path: 'producto-faltante', component:ProductoFaltanteComponent}
-
+  {path: 'producto-faltante', component:ProductoFaltanteComponent},
+  {path: 'reimpresion', component:ReimpresionEtiquetaComponent},
 ];
 
 @NgModule({

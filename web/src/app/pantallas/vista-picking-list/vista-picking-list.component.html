@@ -4,7 +4,7 @@
     <h2></h2>
   </div>
 
-  <form [formGroup]="chooseStationForm" (ngSubmit)="onSubmit()" (click)="clickStation($event)" [hidden]="isStationSelected()">
+  <form [formGroup]="chooseStationForm" (ngSubmit)="onSubmit()" (change)="clickStation($event)" [hidden]="isStationSelected()">
     <h2>Por favor seleccione la estación en la cual se encuentra actualmente</h2>
     <div>
       <label for="zones">Seleccionar Estación</label>
@@ -28,7 +28,7 @@
       <button mat-raised-button (click)="boxCodeScanned()" class="button">OK</button>
     </div>
   </div>
-  <div class="go-back-container">
+  <div class="go-back-container" [hidden]="!isStationSelected()">
     <button (click)="resetStation()" class="button">Reiniciar Estación</button>
   </div>
 </div>

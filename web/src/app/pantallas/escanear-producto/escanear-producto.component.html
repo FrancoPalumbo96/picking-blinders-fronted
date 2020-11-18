@@ -14,10 +14,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of dataTable">
-            <td>{{data.product}}</td>
-            <td>{{data.quantity}}</td>
-          </tr>
+          <ng-container *ngFor="let data of dataTable">
+            <tr *ngIf="data.missingQuantity > 0">
+              <td>{{data.product.name}}</td>
+              <td>{{data.missingQuantity}}</td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>
@@ -25,11 +27,11 @@
       <h2>Por favor ingrese el código de un producto<br>perteneciente a la picking list</h2>
       <div>
         <label>
-          <input [(ngModel)]="boxCode" type="number" placeholder="ingrese el código aquí"/>
+          <input [(ngModel)]="productCode" type="number" placeholder="ingrese el código aquí"/>
         </label>
       </div>
       <div>
-        <button mat-raised-button (click)="addProductToBox()" class="button">Agregar</button>
+        <button (click)="addProductToBox()" class="button">Agregar</button>
       </div>
     </div>
   </div>

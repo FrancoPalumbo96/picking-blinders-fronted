@@ -23,7 +23,6 @@ public class Box {
 
     public static int MaxTotalVolume = 15;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "state_id")
     private State state;

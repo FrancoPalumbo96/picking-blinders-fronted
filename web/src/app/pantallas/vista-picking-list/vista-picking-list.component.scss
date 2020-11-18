@@ -2,15 +2,15 @@
 @import "src/app/pantallas/impresion-etiquetas/impresion-etiquetas.component";
 h1 {
   white-space: pre-wrap;
-  line-height : 60px;
+  line-height : 70px;
 }
 
 .go-back-container button{
   position: absolute;
-  right: 10px;
-  top: 10px;
-  background-color: #808080;
-  width: 175px;
+  right: 4%;
+  top: 57px;
+  background-color: #9fa5ab;
+  width: auto;
   text-align: center;
   font-size: 15px;
   //Todo add image and hoverable
