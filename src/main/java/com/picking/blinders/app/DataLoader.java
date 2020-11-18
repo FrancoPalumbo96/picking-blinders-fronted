@@ -7,7 +7,6 @@ import com.picking.blinders.app.resources.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -18,7 +17,6 @@ import java.util.stream.Stream;
 public class DataLoader implements ApplicationRunner {
 
     private final ClientRepository clientRepository;
-    private final UserRepository userRepository;
     private final StateRepository stateRepository;
     private final StationRepository stationRepository;
     private final OrderRepository orderRepository;
@@ -28,18 +26,14 @@ public class DataLoader implements ApplicationRunner {
     private final PickingListProductQuantityRepository pickingListProductQuantityRepository;
     private final PickingListRepository pickingListRepository;
 
-
     final static Random random = new Random();
-
-
 
     @Autowired
     public DataLoader(ClientRepository clientRepository, StateRepository stateRepository,
                       OrderRepository orderRepository, ProductQuantityRepository productQuantityRepository,
                       ProductRepository productRepository, StationRepository stationRepository,
                       BoxRepository boxRepository, PickingListRepository pickingListRepository,
-                      PickingListProductQuantityRepository pickingListProductQuantityRepository,
-                      UserRepository userRepository) {
+                      PickingListProductQuantityRepository pickingListProductQuantityRepository) {
         this.clientRepository = clientRepository;
         this.stateRepository = stateRepository;
         this.orderRepository = orderRepository;
@@ -49,13 +43,10 @@ public class DataLoader implements ApplicationRunner {
         this.boxRepository = boxRepository;
         this.pickingListRepository = pickingListRepository;
         this.pickingListProductQuantityRepository = pickingListProductQuantityRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        userRepository.save(new User("franco", "franco@gmail.com",
-        new BCryptPasswordEncoder().encode("password"), "1234", "1234"));
 
         //Data Loader for Clients
         //TODO agregarle dirección
