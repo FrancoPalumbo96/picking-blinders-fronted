@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LabelService {
@@ -83,6 +84,12 @@ public class LabelService {
     }
 
     public Label findById(Long id) {
-        return labelRepository.findById(id).orElseThrow();
+        Optional<Label> la = labelRepository.findById(id);
+        if(la.isPresent()){
+            return la.get();
+        } else {
+            return null;
+        }
+        //return labelRepository.findById(id).orElseThrow();
     }
 }

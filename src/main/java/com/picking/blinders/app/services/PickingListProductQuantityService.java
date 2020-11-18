@@ -19,7 +19,6 @@ public class PickingListProductQuantityService {
     }
 
     public PickingListProductQuantity findById(Long id) {
-<<<<<<< HEAD
         Optional<PickingListProductQuantity> p = pickingListProductQuantityRepository.findById(id);
         if(p.isPresent()){
             return p.get();
@@ -27,9 +26,6 @@ public class PickingListProductQuantityService {
             return null;
         }
         //return pickingListProductQuantityRepository.findById(id).orElseThrow();
-=======
-        return pickingListProductQuantityRepository.findById(id).orElseThrow();
->>>>>>> 22491273defaa42dce52eadcd22d4685fe20e244
     }
 
     public void saveAll(List<PickingListProductQuantity> pqs) { pickingListProductQuantityRepository.saveAll(pqs);}

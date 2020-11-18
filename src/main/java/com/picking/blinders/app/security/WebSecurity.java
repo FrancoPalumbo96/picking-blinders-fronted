@@ -1,6 +1,10 @@
 package com.picking.blinders.app.security;
 
 import static com.picking.blinders.app.security.SecurityConstants.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.picking.blinders.app.services.UserDetailsServiceImplementation;
+import com.picking.blinders.app.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,10 +20,20 @@ import static com.picking.blinders.app.security.SecurityConstants.*;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public WebSecurity(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    private final UserDetailsServiceImplementation userDetailsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
+    private final ObjectMapper objectMapper;
+    public WebSecurity(
+            UserDetailsServiceImplementation userDetailsService,
+            BCryptPasswordEncoder bCryptPasswordEncoder,
+            UserService userService,
+            ObjectMapper objectMapper
+    ) {
+        this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -58,12 +72,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService, objectMapper))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
