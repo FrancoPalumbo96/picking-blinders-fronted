@@ -4,7 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LabelService} from "../../../shared/services/label.service";
 import {Label} from "../../../shared/models/label";
 import {FormBuilder} from "@angular/forms";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-impresion-etiquetas',
@@ -22,14 +22,17 @@ export class ImpresionEtiquetasComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private labelService: LabelService,
               public fb: FormBuilder,
-              private _router: Router,) { }
+              private _router: Router,
+              private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-    this.getZones();
+    this.route.queryParams.subscribe(params => {
+      this.getZones();
+    });
   }
 
   getZones() {
-    this.labelService.zones.subscribe((data) => {
+    this.labelService.findZones().subscribe((data) => {
       this.zones = data;
     });
   }

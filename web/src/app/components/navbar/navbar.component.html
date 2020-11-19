@@ -1,10 +1,16 @@
 <mat-toolbar color="primary">
   <span class="nav-bar-title">Picking Blinders</span>
-  <a class="nav-bar-button" mat-button routerLink="/generacion_picking_list">Generacion</a>
+  <!--<a class="nav-bar-button" mat-button routerLink="/generacion_picking_list">Generacion</a>
   <a class="nav-bar-button" mat-button routerLink="/impresion_etiquetas">Impresion</a>
   <a class="nav-bar-button" mat-button routerLink="/picking_list">Estación</a>
   <a class="nav-bar-button" mat-button routerLink="/derivador">Derivador</a>
   <a class="nav-bar-button" mat-button routerLink="/control-de-calidad">Control de Calidad</a>
-  <a class="nav-bar-button" mat-button routerLink="/producto-faltante">Faltante</a>
+  <a class="nav-bar-button" mat-button routerLink="/producto-faltante">Faltante</a>-->
+  <button class="button" (click)="goTo('/generacion_picking_list')">Generación</button>
+  <button class="button" (click)="goTo('/impresion_etiquetas')">Impresion</button>
+  <button class="button" (click)="goTo('/picking_list')">Estación</button>
+  <button class="button" (click)="goTo('/derivador')">Derivador</button>
+  <button class="button" (click)="goTo('/control-de-calidad')">Control de Calidad</button>
+  <button class="button" (click)="goTo('/producto-faltante')">Faltante</button>
   <img src="../../../assets/images/peaky-blinders.png" alt="bug" height={50} />
 </mat-toolbar>

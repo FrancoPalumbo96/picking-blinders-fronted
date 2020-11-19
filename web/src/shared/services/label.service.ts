@@ -15,7 +15,7 @@ export class LabelService {
     this.labelsUrl = environment.url + '/labels';
   }
 
-  private findZones(): Observable<string[]> {
+  public findZones(): Observable<string[]> {
     return this.http.get(this.labelsUrl + '/getZones').pipe(
       map((res: any) => {
         this.zonesList = res.map((zone) => zone);
@@ -35,6 +35,7 @@ export class LabelService {
       })
     )
   }
+
 
   get zones(): Observable<string[]> {
     return this.zonesList

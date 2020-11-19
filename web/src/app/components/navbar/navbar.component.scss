@@ -16,3 +16,17 @@ img{
   right: 50px;
   width: 50px;
 }
+
+.button {
+  background-color: #00cccc;
+  border: none;
+  color: white;
+  margin: 0 0 0 60px;
+  text-align: center;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #02c0c0;
+}

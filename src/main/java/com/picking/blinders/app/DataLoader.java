@@ -149,10 +149,7 @@ public class DataLoader implements ApplicationRunner {
             }
         }
         productQuantityRepository.saveAll(productQuantities);
-
     }
-
-
 }
 
 

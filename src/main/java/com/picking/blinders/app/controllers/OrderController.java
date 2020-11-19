@@ -78,6 +78,7 @@ public class OrderController {
                 order.setGenerated(true);
             }
             try {
+                orders.get(orders.size() - 1).getBoxes().iterator().next().setState(stateService.findByName("Calidad"));
                 orderService.saveOrders(orders);
                 for (Order o : orders) {
                     for (Box b : o.getBoxes()) {
