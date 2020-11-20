@@ -141,6 +141,7 @@ export class ControlDeCalidadComponent implements OnInit {
             "action": "faltante",
             "func": () => {
               this.boxService.changeBoxStateToMissing(this.boxCode).subscribe();
+              this.boxService.updateProductQuantities(this.dataTable).subscribe();
               this.finishControl();
             }
           },
@@ -154,7 +155,7 @@ export class ControlDeCalidadComponent implements OnInit {
               this.finishControl();
             }
           },
-          {
+          /*{
             "title": "Aprobar caja",
             "description": "La caja ha pasado el control de calidad.",
             "img": "../../../assets/images/cs.png",
@@ -163,7 +164,7 @@ export class ControlDeCalidadComponent implements OnInit {
               this.boxService.changeBoxStateToFinished(this.boxCode).subscribe();
               this.finishControl();
             }
-          }
+          }*/
         ]
       }
     })
@@ -190,6 +191,7 @@ export class ControlDeCalidadComponent implements OnInit {
             "action": "aprobada",
             "func": () => {
               this.boxService.changeBoxStateToFinished(this.boxCode).subscribe();
+              this.boxService.updateProductQuantities(this.dataTable).subscribe();
               this.finishControl();
             }
           }

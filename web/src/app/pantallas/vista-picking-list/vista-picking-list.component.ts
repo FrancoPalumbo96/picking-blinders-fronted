@@ -136,6 +136,7 @@ export class VistaPickingListComponent implements OnInit {
     this.currentStation = undefined;
     this.persist("currentWorkingStationId", null);
     this.vistaPickingListTitle = "Vista de picking list por Estación";
+    this.boxCode = undefined;
   }
 
 
