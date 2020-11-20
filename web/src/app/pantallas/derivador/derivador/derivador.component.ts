@@ -36,14 +36,14 @@ export class DerivadorComponent implements OnInit {
             let empty: boolean;
             this.boxService.getBoxMissingProducts(boxId).subscribe( (res) => {
               empty = res.length == 0;
+              if (empty) {
+                this.boxService.changeBoxStateToFinished(boxId).subscribe();
+                this.openImageAlertDialog("Cerrado de Caja", "../../../assets/images/arrow-right.png");
+              } else {
+                this.boxService.changeBoxStateToMissing(boxId).subscribe();
+                this.openImageAlertDialog("Producto Faltante", "../../../assets/images/arrow-left.png");
+              }
             });
-            if (empty) {
-              this.boxService.changeBoxStateToFinished(boxId).subscribe();
-              this.openImageAlertDialog("Cerrado de Caja", "../../../assets/images/arrow-right.png");
-            } else {
-              this.boxService.changeBoxStateToMissing(boxId).subscribe();
-              this.openImageAlertDialog("Producto Faltante", "../../../assets/images/arrow-left.png");
-            }
             break;
           case "Calidad":
             this.openImageAlertDialog("Control de Calidad", "../../../assets/images/arrow-top.png");
